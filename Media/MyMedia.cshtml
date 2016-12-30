@@ -1,0 +1,492 @@
+﻿
+@{
+    ViewBag.Title = "MyMedia";
+    Layout = "~/Views/Shared/_LayoutExample.cshtml";
+}
+
+<script src="~/Assets/bower_components/dropzone/dist/dropzone.js"></script>
+<link href="~/Assets/bower_components/dropzone/dist/dropzone.css" rel="stylesheet" />
+
+<h2>My Media</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr .table-condensed>
+            <th>#</th>
+            <th>Created</th>
+            <th>User Id</th>
+            <th nowrap>Media Type</th>
+            <th>Data Type</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody class="appendRow"></tbody>
+</table>
+
+
+<button type="button" class="btn btn-primary" id="addMediaButt">Add Media</button>
+
+
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">New Media Upload</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <form class="mediaAdd">
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Title</label>
+                        <input type="text" class="form-control formTitle" value="Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Description</label>
+                        <textarea class="form-control formDescription" value="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleSelect1">Media Type</label>
+                        <select class="form-control formMediaType">
+                            <option value="4">Profile Picture</option>
+                            <option value="1">Photo</option>
+                            <option value="2">YouTube</option>
+                            <option value="3">Instagram</option>
+                        </select>
+                    </div>
+
+
+
+                    <div action="/api/media" class="dropzone" id="addmediadropzone" method="post" enctype="multipart/form-data"></div>
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="modalSubmitButt" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Edit Media</h4>
+            </div>
+            <div class="modal-body">
+                <form class="editUpdate">
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Title</label>
+                        <input type="text" class="form-control editTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Description</label>
+                        <textarea class="form-control editDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleSelect1">Media Type</label>
+                        <select class="form-control editMediaType">
+                            <option value="4">Profile Picture</option>
+                            <option value="1">Photo</option>
+                            <option value="2">YouTube</option>
+                            <option value="3">Instagram</option>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success updateSubmitButt" data-dismiss="modal">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="newRowTemp">
+    <tr>
+        <th scope="row" class="id"></th>
+        <td class="dateCreated"></td>
+        <td class="userId" nowrap></td>
+        <td class="mediaType"></td>
+        <td class="dataType"></td>
+        <td class="title"></td>
+        <td class="description"></td>
+        <td class="url"></td>
+        <td class="action" nowrap>
+            <a href="#" class="btn btn-sm btn-info editButt"><span class="glyphicon glyphicon-edit"></span>Edit</a>
+            <a href="#" class="btn btn-sm btn-warning deleteButt"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+        </td>
+    </tr>
+</script>
+
+
+
+
+@section scripts {
+
+
+
+    <script type="text/javascript">
+
+        sabio.page.startUp = function () {
+
+            //bind add media modal button
+            $("#addMediaButt").on('click', sabio.page.handlers.showForm);
+
+
+            // bind media form submit button
+            // $("#modalSubmitButt").on("click", sabio.page.handlers.submitForm);
+
+            //bind delete button
+            $(".appendRow").on("click", ".deleteButt", sabio.page.handlers.deleteRow);
+
+            //bind edit button
+            $(".appendRow").on("click", ".editButt", sabio.page.handlers.showEditModal);
+
+
+            //bind update button
+            $(".updateSubmitButt").on("click", sabio.page.handlers.editModalUpdate);
+
+
+            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError);
+
+
+
+        };
+
+
+
+
+        //code
+
+
+
+
+
+        sabio.page.handlers.onGetSuccess = function (data) {
+
+            console.log("data", data.items)
+
+            for (var i = 0; i < data.items.length; i++) {
+
+                var newRowTemp = $("#newRowTemp").html();
+                var newRowTempHtml = $(newRowTemp).clone();
+
+
+                newRowTempHtml.find(".id").text(data.items[i].id);
+                newRowTempHtml.find(".dateCreated").text(data.items[i].created);
+                newRowTempHtml.find(".userId").text(data.items[i].userId);
+                newRowTempHtml.find(".mediaType").text(data.items[i].mediaType);
+                newRowTempHtml.find(".dataType").text(data.items[i].dataType);
+                newRowTempHtml.find(".title").text(data.items[i].title);
+                newRowTempHtml.find(".description").text(data.items[i].description);
+                newRowTempHtml.find(".url").text(data.items[i].url);
+
+                newRowTempHtml.appendTo(".appendRow")
+            }
+
+        }
+
+
+        sabio.page.handlers.onGetError = function () {
+
+            console.log("didnt get")
+
+        }
+
+        //create handler for modal form reveal
+        sabio.page.handlers.showForm = function () {
+            event.preventDefault();
+
+            console.log("modal handler running")
+
+            $("#formModal").modal("show");
+
+
+        }
+
+
+        //submit form handler
+
+        /*sabio.page.handlers.submitForm = function () {
+            event.preventDefault();
+
+            console.log("submit modal running!")
+
+            //get values from form
+            var formUserId = $(".formUserId").val();
+            var formTitle = $(".formTitle").val();
+            var formDescription = $(".formDescription").val();
+            var formDataType = $(".formDataType").val();
+            var formURL = $(".formURL").val();
+            var formMediaType = $(".formMediaType").val();
+
+
+
+
+
+            //create Post form
+            var postForm =
+                {
+                    "UserId": formUserId,
+                    "Mediatype": formMediaType,
+                    "DataType": formDataType,
+                    "Title": formTitle,
+                    "Description": formDescription,
+                    "Url": formURL,
+                };
+
+
+
+
+            //post new media
+            sabio.media.services.apiPostMedia(postForm, sabio.page.handlers.submitFormonSuccess, sabio.page.handlers.submitFormonError)
+
+        }
+        */
+
+        Dropzone.options.addmediadropzone = {
+
+
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFilesize: 5,
+
+
+            init: function () {
+
+
+                var myDropzone = this;
+
+                myDropzone.options.url = sabio.services.apiPrefix + "api/media";
+
+                // First change the button to actually tell Dropzone to process the queue.
+
+
+                {
+                    $("#modalSubmitButt").on("click", function (e) {
+
+                        // Make sure that the form isn't actually being sent.
+
+
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue();
+
+
+                    });
+
+
+                    this.on("sending", function (file, xhr, formData) {
+                        // Will send the filesize along with the file as POST data.
+                        console.log("Pic is sending");
+
+                        formData.append("Mediatype", $('.formMediaType').val());
+                        formData.append("Title", $('.formTitle').val());
+                        formData.append("Description", $('.formDescription').val());
+
+
+                        //console.log("formdata is " + formData.Title)*/
+
+                    });
+
+
+
+                    this.on("success", function (file, response) {
+                        console.log("mediaId is: " + response.item);
+                        var mediaId = response.item;
+
+                        // sabio.page.uploaded(mediaId);
+                        //sabio.page.handlers.onUpdateAvatarSubmit(mediaId);
+
+                        $(".mediaAdd").trigger("reset");
+                        $(".dropzone").empty();
+
+                        $(".appendRow").empty();
+                        sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError)
+
+                    })
+                }
+
+            }
+        }
+
+
+
+
+        sabio.page.handlers.submitFormonSuccess = function () {
+
+
+
+        };
+
+
+        sabio.page.handlers.submitFormonError = function () {
+
+            console.log("media no upload!!!")
+
+
+        };
+
+
+
+
+        //delete button handler
+        sabio.page.handlers.deleteRow = function () {
+            event.preventDefault();
+
+            sabio.page.handlers.lastClicked = $(this).closest("tr");
+
+            var mediaID = sabio.page.handlers.lastClicked.find(".id").text();
+
+            console.log(mediaID);
+
+            if (confirm("Do you want to delete?")) {
+                console.log("confirm working");
+
+
+                sabio.services.media.apiDeleteById(mediaID, sabio.page.handlers.deleteonSuccess, sabio.page.handlers.deleteonError);
+
+
+            };
+
+
+
+
+
+
+        };
+
+        sabio.page.handlers.deleteonSuccess = function () {
+
+            // empty div
+            console.log("deleteonsuccess running");
+
+            $(".appendRow").empty();
+
+
+            //load database
+            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGETError);
+
+        };
+
+
+
+        sabio.page.handlers.deleteRowonError = function () {
+
+
+        };
+
+        sabio.page.handlers.showEditModal = function () {
+            event.preventDefault();
+
+
+            //create last clicked for edit button clicked
+            sabio.page.handlers.lastClicked = $(this).closest("tr");
+
+            //put current values into edit form
+            var userId = sabio.page.handlers.lastClicked.find(".userId").text();
+            var title = sabio.page.handlers.lastClicked.find(".title").text();
+            var description = sabio.page.handlers.lastClicked.find(".description").text();
+            var mediaType = sabio.page.handlers.lastClicked.find(".mediaType").text();
+            var dataType = sabio.page.handlers.lastClicked.find(".dataType").text();
+            var url = sabio.page.handlers.lastClicked.find(".url").text();
+
+            $(".editUserId").val(userId);
+            $(".editTitle").val(title);
+            $(".editDescription").val(description);
+            $(".editMediaType").val(mediaType);
+            $(".editDataType").val(dataType);
+            $(".url").val(url);
+            //show edit modal
+
+            $("#editModal").modal("show");
+
+
+
+        };
+
+
+
+        sabio.page.handlers.editModalUpdate = function () {
+            event.preventDefault();
+
+            console.log("update works")
+
+
+            //get edit values
+            var editUserId = sabio.page.handlers.lastClicked.find(".userId").text();
+            var editTitle = $(".editTitle").val();
+            var editDescription = $(".editDescription").val();
+            var editMediaType = $(".editMediaType").val();
+            var editURL = sabio.page.handlers.lastClicked.find(".url").text();
+            var editDataType= sabio.page.handlers.lastClicked.find(".dataType").text();
+
+
+            //get id
+            var mediaID = sabio.page.handlers.lastClicked.find(".id").text();
+
+            var postForm =
+            {
+                "Id": mediaID,
+                "UserId": editUserId,
+                "Mediatype": editMediaType,
+                "DataType": editDataType,
+                "Title": editTitle,
+                "Description": editDescription,
+                "Url": editURL,
+            };
+
+
+
+
+
+            sabio.services.media.apiUpdateById(mediaID, postForm, sabio.page.handlers.editModalUpdateonSuccess, sabio.page.handlers.editModalUpdateonError)
+
+
+        };
+
+
+        sabio.page.handlers.editModalUpdateonSuccess = function () {
+
+            $(".appendRow").empty();
+
+            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError);
+
+        };
+
+
+
+        sabio.page.handlers.editModalUpdateonError = function () {
+
+
+            console.log("update has failed!");
+
+        };
+
+    </script>
+}
