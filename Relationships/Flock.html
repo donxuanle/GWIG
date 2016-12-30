@@ -1,0 +1,41 @@
+﻿
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="followingTable">
+                        <div class="col-md-10">
+                            <h1> {{fCtrl.header}}<span></span></h1>                            
+
+                            <figure class="snip1344 snipHover" data-ng-repeat="fol in fCtrl.items track by $index">
+                                <a href="https://clusterflock.dev/user/profiles/{{fol.userName}}"><img src="{{fol.url}}" alt="profile-sample1" class="profile img-responsive img-circle"/></a>
+                                <img src="{{fol.url}}" alt="profile-sample1" class="bgimg" />
+                                <figcaption>
+                                    <h3><a class="asnip1344" href="https://clusterflock.dev/user/profiles/{{fol.userName}}">{{fol.userName | limitTo:15 | capitalize }}</a></h3>
+
+                                    <h5> <a class="btn btn-sm btn-warning" ng-if="(fCtrl.currentbuttontoshow !=='followers')" ng-click="fCtrl.unFollow(fol)"><span class="glyphicon glyphicon-minus-sign"></span> Unfollow</a></h5>
+
+                                    <a class="btn btn-sm btn-primary" ng-if="(fCtrl.currentbuttontoshow =='followers')" ng-click="fCtrl.addFollower(fol)">
+                                        <span class="glyphicon glyphicon-plus-sign"></span> Follow
+                                    </a>
+
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul uib-pagination total-items="fCtrl.totalItemCount" ng-model="fCtrl.currentPage" max-size="fCtrl.maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" ng-change="fCtrl.pageChanged()" items-per-page="fCtrl.itemsPerPage"></ul>
+</div>
+
+
+
+
+
+
+
