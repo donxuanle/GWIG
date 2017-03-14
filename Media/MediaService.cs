@@ -1,16 +1,6 @@
-﻿using Sabio.Data;
-using Sabio.Web.Domain.MyMedia;
-using Sabio.Web.Enums;
-using Sabio.Web.Models.Requests.MyMedia;
-using Sabio.Web.Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-namespace Sabio.Web.Services.MyMedia_Services
+
+namespace gwig.Web.Services.MyMedia_Services
 {
     public class MediaService : BaseService,IMediaService
 
