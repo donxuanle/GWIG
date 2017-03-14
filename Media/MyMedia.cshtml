@@ -1,8 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "MyMedia";
-    Layout = "~/Views/Shared/_LayoutExample.cshtml";
-}
+
 
 <script src="~/Assets/bower_components/dropzone/dist/dropzone.js"></script>
 <link href="~/Assets/bower_components/dropzone/dist/dropzone.css" rel="stylesheet" />
@@ -151,27 +147,27 @@
 
     <script type="text/javascript">
 
-        sabio.page.startUp = function () {
+        gwig.page.startUp = function () {
 
             //bind add media modal button
-            $("#addMediaButt").on('click', sabio.page.handlers.showForm);
+            $("#addMediaButt").on('click', gwig.page.handlers.showForm);
 
 
             // bind media form submit button
             // $("#modalSubmitButt").on("click", sabio.page.handlers.submitForm);
 
             //bind delete button
-            $(".appendRow").on("click", ".deleteButt", sabio.page.handlers.deleteRow);
+            $(".appendRow").on("click", ".deleteButt", gwig.page.handlers.deleteRow);
 
             //bind edit button
-            $(".appendRow").on("click", ".editButt", sabio.page.handlers.showEditModal);
+            $(".appendRow").on("click", ".editButt", gwig.page.handlers.showEditModal);
 
 
             //bind update button
-            $(".updateSubmitButt").on("click", sabio.page.handlers.editModalUpdate);
+            $(".updateSubmitButt").on("click", gwig.page.handlers.editModalUpdate);
 
 
-            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError);
+            sabio.services.media.apiGetAllMedia(gwig.page.handlers.onGetSuccess, gwig.page.handlers.onGetError);
 
 
 
@@ -186,7 +182,7 @@
 
 
 
-        sabio.page.handlers.onGetSuccess = function (data) {
+        gwig.page.handlers.onGetSuccess = function (data) {
 
             console.log("data", data.items)
 
@@ -211,14 +207,14 @@
         }
 
 
-        sabio.page.handlers.onGetError = function () {
+        gwig.page.handlers.onGetError = function () {
 
             console.log("didnt get")
 
         }
 
         //create handler for modal form reveal
-        sabio.page.handlers.showForm = function () {
+        gwig.page.handlers.showForm = function () {
             event.preventDefault();
 
             console.log("modal handler running")
@@ -231,7 +227,7 @@
 
         //submit form handler
 
-        /*sabio.page.handlers.submitForm = function () {
+        /*gwig.page.handlers.submitForm = function () {
             event.preventDefault();
 
             console.log("submit modal running!")
@@ -263,7 +259,7 @@
 
 
             //post new media
-            sabio.media.services.apiPostMedia(postForm, sabio.page.handlers.submitFormonSuccess, sabio.page.handlers.submitFormonError)
+            gwig.media.services.apiPostMedia(postForm, sabio.page.handlers.submitFormonSuccess, sabio.page.handlers.submitFormonError)
 
         }
         */
@@ -327,7 +323,7 @@
                         $(".dropzone").empty();
 
                         $(".appendRow").empty();
-                        sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError)
+                        gwig.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError)
 
                     })
                 }
@@ -338,14 +334,14 @@
 
 
 
-        sabio.page.handlers.submitFormonSuccess = function () {
+        gwig.page.handlers.submitFormonSuccess = function () {
 
 
 
         };
 
 
-        sabio.page.handlers.submitFormonError = function () {
+        gwig.page.handlers.submitFormonError = function () {
 
             console.log("media no upload!!!")
 
@@ -356,12 +352,12 @@
 
 
         //delete button handler
-        sabio.page.handlers.deleteRow = function () {
+        gwig.page.handlers.deleteRow = function () {
             event.preventDefault();
 
-            sabio.page.handlers.lastClicked = $(this).closest("tr");
+            gwig.page.handlers.lastClicked = $(this).closest("tr");
 
-            var mediaID = sabio.page.handlers.lastClicked.find(".id").text();
+            var mediaID = gwig.page.handlers.lastClicked.find(".id").text();
 
             console.log(mediaID);
 
@@ -369,7 +365,7 @@
                 console.log("confirm working");
 
 
-                sabio.services.media.apiDeleteById(mediaID, sabio.page.handlers.deleteonSuccess, sabio.page.handlers.deleteonError);
+                gwig.services.media.apiDeleteById(mediaID, sabio.page.handlers.deleteonSuccess, sabio.page.handlers.deleteonError);
 
 
             };
@@ -381,7 +377,7 @@
 
         };
 
-        sabio.page.handlers.deleteonSuccess = function () {
+        gwig.page.handlers.deleteonSuccess = function () {
 
             // empty div
             console.log("deleteonsuccess running");
@@ -390,31 +386,31 @@
 
 
             //load database
-            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGETError);
+            gwig.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGETError);
 
         };
 
 
 
-        sabio.page.handlers.deleteRowonError = function () {
+        gwig.page.handlers.deleteRowonError = function () {
 
 
         };
 
-        sabio.page.handlers.showEditModal = function () {
+        gwig.page.handlers.showEditModal = function () {
             event.preventDefault();
 
 
             //create last clicked for edit button clicked
-            sabio.page.handlers.lastClicked = $(this).closest("tr");
+            gwig.page.handlers.lastClicked = $(this).closest("tr");
 
             //put current values into edit form
-            var userId = sabio.page.handlers.lastClicked.find(".userId").text();
-            var title = sabio.page.handlers.lastClicked.find(".title").text();
-            var description = sabio.page.handlers.lastClicked.find(".description").text();
-            var mediaType = sabio.page.handlers.lastClicked.find(".mediaType").text();
-            var dataType = sabio.page.handlers.lastClicked.find(".dataType").text();
-            var url = sabio.page.handlers.lastClicked.find(".url").text();
+            var userId = gwig.page.handlers.lastClicked.find(".userId").text();
+            var title = gwig.page.handlers.lastClicked.find(".title").text();
+            var description = gwig.page.handlers.lastClicked.find(".description").text();
+            var mediaType = gwig.page.handlers.lastClicked.find(".mediaType").text();
+            var dataType = gwig.page.handlers.lastClicked.find(".dataType").text();
+            var url = gwig.page.handlers.lastClicked.find(".url").text();
 
             $(".editUserId").val(userId);
             $(".editTitle").val(title);
@@ -432,23 +428,23 @@
 
 
 
-        sabio.page.handlers.editModalUpdate = function () {
+        gwig.page.handlers.editModalUpdate = function () {
             event.preventDefault();
 
             console.log("update works")
 
 
             //get edit values
-            var editUserId = sabio.page.handlers.lastClicked.find(".userId").text();
+            var editUserId = gwig.page.handlers.lastClicked.find(".userId").text();
             var editTitle = $(".editTitle").val();
             var editDescription = $(".editDescription").val();
             var editMediaType = $(".editMediaType").val();
-            var editURL = sabio.page.handlers.lastClicked.find(".url").text();
-            var editDataType= sabio.page.handlers.lastClicked.find(".dataType").text();
+            var editURL = gwig.page.handlers.lastClicked.find(".url").text();
+            var editDataType= gwig.page.handlers.lastClicked.find(".dataType").text();
 
 
             //get id
-            var mediaID = sabio.page.handlers.lastClicked.find(".id").text();
+            var mediaID = gwig.page.handlers.lastClicked.find(".id").text();
 
             var postForm =
             {
@@ -465,17 +461,17 @@
 
 
 
-            sabio.services.media.apiUpdateById(mediaID, postForm, sabio.page.handlers.editModalUpdateonSuccess, sabio.page.handlers.editModalUpdateonError)
+            gwig.services.media.apiUpdateById(mediaID, postForm, gwig.page.handlers.editModalUpdateonSuccess, gwig.page.handlers.editModalUpdateonError)
 
 
         };
 
 
-        sabio.page.handlers.editModalUpdateonSuccess = function () {
+        gwig.page.handlers.editModalUpdateonSuccess = function () {
 
             $(".appendRow").empty();
 
-            sabio.services.media.apiGetAllMedia(sabio.page.handlers.onGetSuccess, sabio.page.handlers.onGetError);
+            gwig.services.media.apiGetAllMedia(gwig.page.handlers.onGetSuccess, gwig.page.handlers.onGetError);
 
         };
 
