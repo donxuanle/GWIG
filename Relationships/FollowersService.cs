@@ -1,17 +1,6 @@
-﻿using InstaSharp.Models;
-using Sabio.Data;
-using Sabio.Web.Domain;
-using Sabio.Web.Enums;
-using Sabio.Web.Models.Requests.Followers;
-using Sabio.Web.Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
-namespace Sabio.Web.Services
+
+namespace gwig.Web.Services
 {
     public class FollowersService : BaseService, IFollowersService
     {
