@@ -1,16 +1,6 @@
-﻿using Sabio.Web.Domain;
-using Sabio.Web.Models.Requests.Followers;
-using Sabio.Web.Models.Requests.Pagination;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
-namespace Sabio.Web.Controllers
+
+namespace gwig.Web.Controllers
 {
     [RoutePrefix("api/following")]
     public class FollowingAPIController : ApiController
