@@ -1,10 +1,10 @@
-﻿sabio.services.media = sabio.services.media || {};
+gwig.services.media = gwig.services.media || {};
 
 
 
 
-sabio.services.media.apiPostMedia = function (data, onSuccess, onError) {
-    var url = sabio.services.apiPrefix + "api/media"
+gwig.services.media.apiPostMedia = function (data, onSuccess, onError) {
+    var url = gwig.services.apiPrefix + "api/media"
 
     var settings = {
         
@@ -20,8 +20,8 @@ sabio.services.media.apiPostMedia = function (data, onSuccess, onError) {
     $.ajax(url, settings)
 }
 
-sabio.services.media.apiPostSinglePlaceMedia = function (data, onSuccess, onError) {
-    var url = sabio.services.apiPrefix + "api/media/video/placesUpload"
+gwig.services.media.apiPostSinglePlaceMedia = function (data, onSuccess, onError) {
+    var url = gwig.services.apiPrefix + "api/media/video/placesUpload"
 
     var settings = {
 
@@ -37,9 +37,9 @@ sabio.services.media.apiPostSinglePlaceMedia = function (data, onSuccess, onErro
     $.ajax(url, settings)
 }
 
-sabio.services.media.apiGetAllMedia = function (onSuccess, onError) {
+gwig.services.media.apiGetAllMedia = function (onSuccess, onError) {
 
-    var url = sabio.services.apiPrefix + "api/media"
+    var url = gwig.services.apiPrefix + "api/media"
 
     var settings = {
        
@@ -53,9 +53,9 @@ sabio.services.media.apiGetAllMedia = function (onSuccess, onError) {
     $.ajax(url, settings)
 }
 
-sabio.services.media.apiDeleteById = function (id, onSuccess, onError) {
+gwig.services.media.apiDeleteById = function (id, onSuccess, onError) {
 
-    var url = sabio.services.apiPrefix + "api/media/" + id
+    var url = gwig.services.apiPrefix + "api/media/" + id
 
     var settings = {
         
@@ -68,9 +68,9 @@ sabio.services.media.apiDeleteById = function (id, onSuccess, onError) {
     $.ajax(url, settings)
 }
 
-sabio.services.media.apiUpdateById = function (id, data, onSuccess, onError)
+gwig.services.media.apiUpdateById = function (id, data, onSuccess, onError)
 {
-    var url = sabio.services.apiPrefix + "api/media/" + id
+    var url = gwig.services.apiPrefix + "api/media/" + id
 
     var settings = {
 
@@ -84,8 +84,8 @@ sabio.services.media.apiUpdateById = function (id, data, onSuccess, onError)
     $.ajax(url, settings)
 }
 
-sabio.services.media.apiGetMediaByUserId = function (onSuccess, onError) {
-    var url = sabio.services.apiPrefix + "api/media/UserId"
+gwig.services.media.apiGetMediaByUserId = function (onSuccess, onError) {
+    var url = gwig.services.apiPrefix + "api/media/UserId"
 
     var settings = {
 
