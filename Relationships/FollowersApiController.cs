@@ -1,21 +1,6 @@
-﻿using Sabio.Web.Domain;
-using Sabio.Web.Models.Requests.Followers;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Models.ViewModels;
-using Sabio.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http;
-using Microsoft.Practices.Unity;
-using Sabio.Web.Enums;
-using Sabio.Web.Models.SystemEvents;
-using Sabio.Web.Services.Interface;
 
-namespace Sabio.Web.Controllers
+
+namespace gwig.Web.Controllers
 {
     [RoutePrefix("api/followers")]
     public class FollowersApiController : ApiController
