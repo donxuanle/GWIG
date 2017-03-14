@@ -1,22 +1,6 @@
-﻿using Sabio.Web.Domain.MyMedia;
-using Sabio.Web.Models.Requests.MyMedia;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services.MyMedia_Service;
-using Sabio.Web.Services.MyMedia_Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http;
-using Sabio.Web.Enums;
-using Sabio.Web.Models.Requests.Youtube;
-using Sabio.Web.Services;
-using Microsoft.Practices.Unity;
-using Sabio.Web.Services.Interface;
 
-namespace Sabio.Web.Controllers.Api.MyMedia_Api
+
+namespace gwig.Web.Controllers.Api.MyMedia_Api
 {
     [RoutePrefix("api/media")]
     public class MediaApiController : BaseApiController
